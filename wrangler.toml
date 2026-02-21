@@ -1,12 +1,9 @@
 # Cloudflare Pages 构建设置
-# 参考文档: https://developers.cloudflare.com/pages/platform/build-configuration
+# 注意：Pages 项目只支持特定的配置字段
+# 构建设置请在 Cloudflare Pages 控制台中配置：
+# - 构建命令: npm run build
+# - 输出目录: dist
 
 name = "douyin-emoji-downloader"
 compatibility_date = "2024-01-01"
-
-# Pages 构建设置
 pages_build_output_dir = "dist"
-
-# 构建命令
-[build]
-command = "npm run build"
