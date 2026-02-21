@@ -57,10 +57,41 @@ npm run preview
 
 ### Cloudflare Pages
 
+#### 方法一：通过 Dashboard 部署（推荐）
+
 1. Fork 本仓库
-2. 在 Cloudflare Pages 中导入项目
-3. 构建命令: `npm run build`
-4. 输出目录: `dist`
+2. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com)
+3. 进入 **Pages** → **创建项目**
+4. 选择 **连接到 Git**，授权并选择你的仓库
+5. 在构建设置中配置：
+
+| 配置项 | 值 |
+|--------|-----|
+| **构建命令** | `npm run build` |
+| **输出目录** | `dist` |
+| **根目录** | `/` |
+
+6. 点击 **保存并部署**
+
+#### 方法二：使用 Wrangler CLI 部署
+
+```bash
+# 安装 Wrangler
+npm install -g wrangler
+
+# 登录 Cloudflare
+wrangler login
+
+# 部署
+wrangler pages deploy dist
+```
+
+#### ⚠️ 重要提示
+
+- **构建设置必须在 Cloudflare Pages 控制台中配置**，`wrangler.toml` 仅支持 `pages_build_output_dir` 等有限字段
+- 确保 **构建命令** 设置为 `npm run build`，否则项目将不会被正确构建
+- 确保 **输出目录** 设置为 `dist`，这是 Vite 默认的构建输出目录
+- 项目已配置 `wrangler.toml` 文件，包含 `pages_build_output_dir = "dist"` 设置
 
 ### 其他平台
 
