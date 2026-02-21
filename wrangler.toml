@@ -4,9 +4,9 @@
 name = "douyin-emoji-downloader"
 compatibility_date = "2024-01-01"
 
-# Pages 构建设置 - 使用 pages_build_output_dir
+# Pages 构建设置
 pages_build_output_dir = "dist"
 
-# 指定 Node.js 版本
-[build.environment]
-NODE_VERSION = "18"
+# 构建命令
+[build]
+command = "npm run build"
