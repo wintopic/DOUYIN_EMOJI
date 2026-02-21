@@ -1,0 +1,6 @@
+{
+  "$schema": "https://developers.cloudflare.com/pages/platform/build-configuration",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite"
+}
