@@ -1,14 +1,12 @@
 # Cloudflare Pages 构建设置
 # 参考文档: https://developers.cloudflare.com/pages/platform/build-configuration
 
-[build]
-command = "npm run build"
-output_directory = "dist"
+name = "douyin-emoji-downloader"
+compatibility_date = "2024-01-01"
+
+# Pages 构建设置 - 使用 pages_build_output_dir
+pages_build_output_dir = "dist"
 
 # 指定 Node.js 版本
 [build.environment]
 NODE_VERSION = "18"
-
-# 项目配置
-name = "douyin-emoji-downloader"
-compatibility_date = "2024-01-01"
