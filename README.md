@@ -76,14 +76,17 @@ npm run preview
 #### 方法二：使用 Wrangler CLI 部署
 
 ```bash
-# 安装 Wrangler
-npm install -g wrangler
-
 # 登录 Cloudflare
-wrangler login
+npx wrangler login
 
 # 部署
-wrangler pages deploy dist
+npm run cf:deploy
+```
+
+本地预览 Cloudflare Pages 输出：
+
+```bash
+npm run cf:preview
 ```
 
 #### ⚠️ 重要提示
@@ -92,6 +95,11 @@ wrangler pages deploy dist
 - 确保 **构建命令** 设置为 `npm run build`，否则项目将不会被正确构建
 - 确保 **输出目录** 设置为 `dist`，这是 Vite 默认的构建输出目录
 - 项目已配置 `wrangler.toml` 文件，包含 `pages_build_output_dir = "dist"` 设置
+- 项目已包含 `_headers`、`_redirects`、PWA manifest 和 Service Worker，可直接作为 Cloudflare Pages 静态站部署
+
+## 📱 PWA 安装
+
+生产构建会自动输出 `manifest.webmanifest`、`sw.js` 和安装图标。部署到 HTTPS 后，在桌面浏览器或移动端浏览器中选择“安装应用”即可作为 PWA 使用。
 
 ### 其他平台
 

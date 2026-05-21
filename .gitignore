@@ -1,10 +1,22 @@
 node_modules
+dist
 dist-ssr
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+ui-*.png
 *.local
 .env
 .env.*
 !.env.example
-*.tsbuildinfo
+
+# Local agent/tooling state
+.claude/
+
+# Android/Capacitor platform output is kept out of this web repo
+android/
+android-standalone/
+capacitor.config.ts
 
 # Editor directories and files
 .vscode/*

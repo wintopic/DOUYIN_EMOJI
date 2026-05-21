@@ -19,84 +19,143 @@ const handleClear = () => {
 </script>
 
 <template>
-  <div class="search-bar">
-    <div class="search-icon">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+  <label class="search-bar">
+    <span class="search-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
         <path
-          d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+          d="M9.75 3.5a6.25 6.25 0 0 1 4.96 10.05l4.37 4.37a.82.82 0 0 1-1.16 1.16l-4.37-4.37A6.25 6.25 0 1 1 9.75 3.5Zm0 1.65a4.6 4.6 0 1 0 0 9.2 4.6 4.6 0 0 0 0-9.2Z"
         />
       </svg>
-    </div>
+    </span>
     <input
-      type="text"
+      type="search"
       :value="modelValue"
-      :placeholder="placeholder || '搜索表情...'"
+      :placeholder="placeholder || '搜索表情'"
       class="search-input"
+      autocomplete="off"
       @input="handleInput"
     />
-    <button v-if="modelValue" class="clear-btn" @click="handleClear">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path
-          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-        />
-      </svg>
-    </button>
-  </div>
+    <Transition name="clear-fade">
+      <button
+        v-if="modelValue"
+        type="button"
+        class="clear-btn"
+        title="清空搜索"
+        @click="handleClear"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M6.4 5.23 12 10.83l5.6-5.6 1.17 1.17-5.6 5.6 5.6 5.6-1.17 1.17-5.6-5.6-5.6 5.6-1.17-1.17 5.6-5.6-5.6-5.6 1.17-1.17Z"
+          />
+        </svg>
+      </button>
+    </Transition>
+  </label>
 </template>
 
 <style scoped>
 .search-bar {
   position: relative;
+  min-height: 48px;
   display: flex;
   align-items: center;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: var(--surface-elevated);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.search-bar:focus-within {
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 4px var(--focus-ring);
+  background: var(--input-bg);
 }
 
 .search-icon {
   position: absolute;
-  left: 12px;
-  color: var(--text-secondary);
+  left: 14px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  color: var(--text-tertiary);
   pointer-events: none;
+}
+
+.search-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.search-bar:focus-within .search-icon {
+  color: var(--brand-red);
 }
 
 .search-input {
   width: 100%;
-  padding: 12px 40px 12px 44px;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  font-size: 14px;
-  background: var(--input-bg);
+  min-width: 0;
+  height: 46px;
+  padding: 0 44px 0 44px;
   color: var(--text-primary);
-  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
 }
 
-.search-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px var(--primary-alpha);
+.search-input::-webkit-search-cancel-button {
+  display: none;
 }
 
 .search-input::placeholder {
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
 }
 
 .clear-btn {
   position: absolute;
   right: 8px;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--text-tertiary);
   border: none;
-  background: var(--hover-bg);
-  color: var(--text-secondary);
-  border-radius: 6px;
+  border-radius: 7px;
+  background: transparent;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+  transition:
+    color 0.18s ease,
+    background 0.18s ease;
 }
 
 .clear-btn:hover {
-  background: var(--border-color);
   color: var(--text-primary);
+  background: var(--surface-hover);
+}
+
+.clear-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.clear-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.clear-fade-enter-active,
+.clear-fade-leave-active {
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.clear-fade-enter-from,
+.clear-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.92);
 }
 </style>

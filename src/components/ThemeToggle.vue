@@ -19,30 +19,45 @@ const isDark = computed(() => {
 })
 
 const toggleTheme = () => {
-  const newTheme = isDark.value ? 'light' : 'dark'
-  emit('update:modelValue', newTheme)
+  emit('update:modelValue', isDark.value ? 'light' : 'dark')
 }
 
 const buttonTitle = computed(() => {
   if (currentTheme.value === 'system') {
-    return `跟随系统 (${isDark.value ? '深色' : '浅色'}) - 点击切换`
+    return `跟随系统（${isDark.value ? '深色' : '浅色'}）`
   }
-  return currentTheme.value === 'dark' ? '深色模式 - 点击切换' : '浅色模式 - 点击切换'
+  return isDark.value ? '切换到浅色模式' : '切换到深色模式'
 })
 </script>
 
 <template>
   <button class="theme-toggle-btn" :title="buttonTitle" @click="toggleTheme">
-    <svg v-if="isDark" class="theme-icon" viewBox="0 0 24 24" fill="currentColor">
-      <path
-        d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"
-      />
-    </svg>
-    <svg v-else class="theme-icon" viewBox="0 0 24 24" fill="currentColor">
-      <path
-        d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"
-      />
-    </svg>
+    <Transition name="theme-icon" mode="out-in">
+      <svg
+        v-if="isDark"
+        key="sun"
+        class="theme-icon"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 6.1a5.9 5.9 0 1 1 0 11.8 5.9 5.9 0 0 1 0-11.8Zm0 1.7a4.2 4.2 0 1 0 0 8.4 4.2 4.2 0 0 0 0-8.4ZM12.85 2v2.7h-1.7V2h1.7Zm0 17.3V22h-1.7v-2.7h1.7ZM22 11.15v1.7h-2.7v-1.7H22Zm-17.3 0v1.7H2v-1.7h2.7Zm13.67-7.32 1.2 1.2-1.9 1.91-1.21-1.2 1.91-1.91ZM6.34 17.06l1.2 1.2-1.9 1.91-1.21-1.2 1.91-1.91Zm13.23 1.91-1.2 1.2-1.91-1.91 1.2-1.2 1.91 1.91ZM7.54 5.74l-1.2 1.2-1.91-1.91 1.2-1.2 1.91 1.91Z"
+        />
+      </svg>
+      <svg
+        v-else
+        key="moon"
+        class="theme-icon"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M20.78 14.72A8.8 8.8 0 0 1 9.28 3.22a.85.85 0 0 0-1.02-1.1A10.45 10.45 0 1 0 21.88 15.74a.85.85 0 0 0-1.1-1.02ZM12 20.75A8.75 8.75 0 0 1 7.2 4.67a10.5 10.5 0 0 0 12.13 12.12A8.72 8.72 0 0 1 12 20.75Z"
+        />
+      </svg>
+    </Transition>
   </button>
 </template>
 
@@ -50,34 +65,54 @@ const buttonTitle = computed(() => {
 .theme-toggle-btn {
   width: 40px;
   height: 40px;
-  border: none;
-  background: var(--card-bg);
-  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: var(--surface-elevated);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  border: 1px solid var(--border-color);
+  transition:
+    transform 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
 }
 
 .theme-toggle-btn:hover {
-  background: var(--hover-bg);
-  transform: scale(1.05);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
 }
 
 .theme-toggle-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
+}
+
+.theme-toggle-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 .theme-icon {
   width: 20px;
   height: 20px;
-  color: var(--text-primary);
-  transition: all 0.3s ease;
 }
 
-.theme-toggle-btn:hover .theme-icon {
-  transform: rotate(15deg);
+.theme-icon-enter-active,
+.theme-icon-leave-active {
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
+}
+
+.theme-icon-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.theme-icon-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }
 </style>
